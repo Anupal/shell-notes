@@ -1,8 +1,6 @@
 # Shell scripting notes
-My notes for Linux shell scripting notes based on:
-- Flavio Copes Linux Handbook: https://www.freecodecamp.org/news/the-linux-commands-handbook/
-- Freecodecamp Bash Scripting: https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=120s
-- Random Googling and Work Experience
+
+#### TODO: add ToC
 
 #### ls
 list stuff
@@ -198,3 +196,117 @@ alias lsthis="ls $PWD"
 # gets executed everytime the alias is called
 alias lscurrent='ls $PWD'
 ```
+
+#### cat
+contatenate files to stdout
+```bash
+# print contents of files concatened in terminal window
+cat file1 file2
+# save output to a file
+cat file1 file2 > file3
+# print line numbers as well
+cat -n file1 file2
+# remove all multiple empty lins
+cat -s file1
+```
+
+#### less
+preview contents of a file in a dedicated view with extra features
+```bash
+less file1
+```
+- `q` to quit
+- `up` and `down` to navigate line by line
+- `space` and `b` to navigate page by page
+- `g` go to start of file
+- `G` go to end of file
+- search for word using `/` and move forward and `?` to move backward
+- `F` to tail
+
+##### Open multiple files
+```bash
+less file1 file2
+```
+- `:n` next file
+- `:p` previous file
+
+#### tail
+view from end of file
+```bash
+# print last 10 lines
+tail -n 10 file1
+# print new content as it gets added to file
+tail -f file1.log
+# print content starting from specific line
+tail -n +10 file1.log
+```
+
+#### wc
+prints number of characters, words, and lines
+```bash
+# check in file
+wc file1
+# check in piped output
+ls -la | wc
+```
+- `-w` for only word count
+- `-c` for only char count
+- `-l` for only line count
+- `m` for non-ASCII charsets
+
+#### grep
+search for strings in file or output
+```bash
+# find occurences of string with line numbers
+grep -n string file1
+# find and print 2 lines before and after
+grep -nC 2 string file1
+# search case insensitive
+grep -n -i string file1
+# print only the match
+grep -n -o string file1
+
+# search regex
+anupal@MSI:~/alt-party$ ls -ltha | grep -E "*Apr*"
+-rw-r--r--  1 anupal anupal  411 Apr 17 15:27 Dockerfile
+drwxr-xr-x  2 anupal anupal 4.0K Apr 17 15:27 logs
+-rwxr-xr-x  1 anupal anupal  263 Apr 17 15:16 build-image.sh
+drwxr-xr-x  8 anupal anupal 4.0K Apr 17 14:54 .git
+drwxr-xr-x  4 anupal anupal 4.0K Apr 17 14:53 .
+```
+
+#### sort
+sorts lines in output or file
+```bash
+sort file1
+# reverse
+sort -r file1
+# case insensitive
+sort --ignore-case file1
+# numeric sort
+sort -n file1
+# remove duplicates
+sort -u file1
+# piped
+ls -ltah | sort
+```
+
+#### uniq
+- remove or show duplicate lines
+- works only on adjacent duplicates
+```bash
+# remove duplicates
+sort list.txt | uniq
+# show only duplicates
+sort list.txt | uniq -d
+# print occurences of each line
+sort list.txt | uniq -c
+# print occurences of each line and sort by occurence
+sort list.txt | uniq -c | sort -nr
+```
+
+## References
+
+- Flavio Copes Linux Handbook: https://www.freecodecamp.org/news/the-linux-commands-handbook/
+- Freecodecamp Bash Scripting: https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=120s
+- Grep regex: https://linuxize.com/post/regular-expressions-in-grep/
