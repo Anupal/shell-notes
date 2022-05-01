@@ -305,6 +305,131 @@ sort list.txt | uniq -c
 sort list.txt | uniq -c | sort -nr
 ```
 
+#### diff
+display difference between two files
+```bash
+diff file1 file2
+```
+##### interprettin changes
+- `2a3` line 3 added after 2
+- `3d2` line 3 deleted
+- `1c1,2` change on line 1 and 2
+
+##### extras
+- `-y` show side by side
+- `u` show like git
+- `-r` compare directories, `-q` will only tell which files differ
+
+```bash
+anupal@MSI:~/scratchpad$ diff anupal.txt anupal2.txt
+1c1,2
+< anupal mishra
+---
+> anupal-mishra--
+> mishra anupal
+anupal@MSI:~/scratchpad$
+anupal@MSI:~/scratchpad$ diff anupal.txt anupal2.txt -u
+--- anupal.txt  2022-05-02 00:03:09.827219900 +0530
++++ anupal2.txt 2022-05-02 00:04:48.387219900 +0530
+@@ -1 +1,2 @@
+-anupal mishra
++anupal-mishra--
++mishra anupal
+anupal@MSI:~/scratchpad$ diff anupal.txt anupal2.txt -y
+anupal mishra                                                 | anupal-mishra--
+                                                              > mishra anupal
+```
+
+#### echo
+prints stuff
+- `-n` no trailing new line
+- `-e` support escape sequence
+
+```bash
+# output to file
+echo "something" >> file
+# use env variables
+echo "some variable $VAR"
+
+# expansions
+# echo all files that start with o
+echo o*
+# execute and echo
+echo $(ls -al)
+# echo range as list of strings
+echo {1..5}
+```
+
+#### chown
+change ownership of files and directories
+```bash
+# file
+chown <owner>:<group> <file>
+# directory and children
+chown -R <owner>:<group> <directory>
+```
+
+#### chmod
+change file/directory permissions w.r.t owner, group and other users
+
+```bash
+anupal@MSI:~/scratchpad$ ls -lath
+total 28K
+drwxr-xr-x  4 anupal anupal 4.0K May  2 00:04 .
+drwxr-xr-x 25 anupal anupal 4.0K May  2 00:04 ..
+-rw-r--r--  1 anupal anupal   30 May  2 00:04 anupal2.txt
+-rw-r--r--  1 anupal anupal   14 May  2 00:03 anupal.txt
+drwxr-xr-x  3 anupal anupal 4.0K May  1 22:39 abc
+-rw-r--r--  1 anupal anupal  345 May  1 22:35 temp.tar.gz
+drwxr-xr-x  2 anupal anupal 4.0K May  1 22:25 temp
+lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerfile
+```
+`drwxr-xr-x` defines the permissions of the file or directory
+- first letter indicates type - `d` directory, `-` file and `l` link
+- then 3 sets of 3 chars representing permissions for owner, group and others
+- `rwx` means read, write and execute permissions
+
+#### using chmod to change permissions
+- `chmod` followed by one or more char
+  - `a` stands for all
+  - `u` stands for user
+  - `g` stands for group
+  - `o` stands for others
+- `+` to add and `-` to remove
+- one or more permission symbols `r`, `w` and `x`
+
+#### umask
+change default permissions applied to files and directories
+```
+# display defaults
+umask
+# display defaults in human readable form
+umask -S
+# change
+umask g+r
+```
+
+#### du
+calculates size of files and directories in current directory and displays in bytes
+```bash
+du
+du *
+# display files in sub-directories
+du -a
+# display in human readable
+du -h
+# mb
+du -m
+# gb
+du -g
+# display and sort
+du -h <directory> | sort -nr
+du -h <directory> | sort -nr | head
+```
+
+#### df
+display disk usage info
+
 ## References
 
 - Flavio Copes Linux Handbook: https://www.freecodecamp.org/news/the-linux-commands-handbook/
