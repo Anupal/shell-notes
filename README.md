@@ -1,8 +1,18 @@
 # Shell scripting notes
 
-#### TODO: add ToC
+|   |   |   |   |   |   |
+|---|---|---|---|---|---|
+| [ls](#ls) | [pwd](#pwd) | [mkdir](#mkdir) | [rmdir](#rmdir-and-rm) | [rm](#rmdir-and-rm) | [mv](#mv) |
+| [cp](#cp) | [open](#open)  | [touch](#touch)  | [find](#find)  | [ln](#ln)  | [gzip](#gzip)  |
+| [tar](#tar)  | [alias](#alias)  | [cat](#cat)  | [less](#less)  | [tail](#tail)  | [wc](#wc)  |
+| [grep](#grep)  | [sort](#sort)  | [uniq](#uniq)  | [diff](#diff)  | [echo](#echo)  | [chown](#chown)  |
+| [chmod](#chmod) | [umask](#umask) | [du](#du) | [df](#df) | [basename](#basename) | [dirname](#dirname) |
+| [id](#id) | [ps](#ps) | [top](#top) | [kill](#kill) | [killall](#killall) | [jobs](#jobs-fg-bg) |
+| [fg](#jobs-fg-bg) | [bg](#jobs-fg-bg) | [type](#type) | [which](#which) | [nohup](#nohup) | [xargs](#xargs) |
+| [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) |
+| [export](#export) | [crontab](#crontab) | [uname](#uname) | [env](#env) | - | - |
 
-#### ls
+### ls
 list stuff
 ```bash
 ls -l # display as formatted list
@@ -25,10 +35,10 @@ drwxr-xr-x  4 anupal anupal 4.0K Apr 17 14:53 .
 -rw-r--r--  1 anupal anupal  922 Sep 25  2021 README.md
 ```
 
-#### pwd
+### pwd
 shows current directory
 
-#### mkdir
+### mkdir
 create new directory
 ```bash
 mkdir directory-name
@@ -36,7 +46,7 @@ mkdir directory-name
 mkdir -p directory/sub-directory
 ```
 
-#### rmdir and rm
+### rmdir and rm
 delete file or directory
 ```bash
 # deletes empty directory
@@ -49,7 +59,7 @@ rm file1 file2
 rm -rf file1 directory1
 ```
 
-#### mv
+### mv
 move or rename file or directory
 ```bash
 # move file
@@ -60,7 +70,7 @@ mv dir1 ~/some/other/path/
 mv old-name new-name
 ```
 
-#### cp
+### cp
 copy stuff
 ```bash
 # copy file
@@ -69,7 +79,7 @@ cp file1 file1-copy
 cp -r dir1 dir2
 ```
 
-#### open (Mac Only)
+### open
 opens directory or application in Finder
 ```bash
 # open current directory
@@ -80,13 +90,13 @@ open dir1
 open <app-name>
 ```
 
-#### touch
+### touch
 create new file or update timestamp of existing file
 ```bash
 touch file1
 ```
 
-#### find
+### find
 Find files and directories, optionally execute stuff on results
 ```bash
 # find files by name and wildcard in current directory
@@ -119,16 +129,16 @@ find . -type -f -exec rm -rf {} \;
 find . -type -f -exec cat {} \;
 ```
 
-#### ln
+### ln
 Creates link (like shortcut on windows) for file or directory
-##### hard link
+#### hard link
 - Points to the memory location where file is stored
 - Still valid if original file is deleted
 ```bash
 ln original-file link-name
 ```
 
-##### soft link
+#### soft link
 - points to the path of the original
 - becomes invalid if original is deleted
 ```bash
@@ -140,7 +150,7 @@ lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerf
 drwxr-xr-x 24 anupal anupal 4.0K May  1 22:14 ..
 ```
 
-#### gzip
+### gzip
 compress a file using LZ777 compression protocol
 ```bash
 # deletes original
@@ -165,7 +175,7 @@ decompress
 gzip -d file.gz
 ```
 
-#### tar
+### tar
 creates an archive of specified files and folders (optionally gzip as well), can also extract
 ```bash
 # create an archive of files
@@ -181,13 +191,13 @@ tar -czf archive.tar.gz file1 file2
 tar -xf archive.tar.gz
 ```
 
-#### alias
+### alias
 create alias for commonly used commands to save time
 ```bash
 alias psgrep='ps aux | grep'
 ```
 
-##### RC file stuff
+#### RC file stuff
 - only saved to current terminal session. So, save to rc file for future use.
 - distiction between single and double quotes
 ```bash
@@ -197,7 +207,7 @@ alias lsthis="ls $PWD"
 alias lscurrent='ls $PWD'
 ```
 
-#### cat
+### cat
 contatenate files to stdout
 ```bash
 # print contents of files concatened in terminal window
@@ -210,7 +220,7 @@ cat -n file1 file2
 cat -s file1
 ```
 
-#### less
+### less
 preview contents of a file in a dedicated view with extra features
 ```bash
 less file1
@@ -223,14 +233,14 @@ less file1
 - search for word using `/` and move forward and `?` to move backward
 - `F` to tail
 
-##### Open multiple files
+#### Open multiple files
 ```bash
 less file1 file2
 ```
 - `:n` next file
 - `:p` previous file
 
-#### tail
+### tail
 view from end of file
 ```bash
 # print last 10 lines
@@ -241,7 +251,7 @@ tail -f file1.log
 tail -n +10 file1.log
 ```
 
-#### wc
+### wc
 prints number of characters, words, and lines
 ```bash
 # check in file
@@ -254,7 +264,7 @@ ls -la | wc
 - `-l` for only line count
 - `m` for non-ASCII charsets
 
-#### grep
+### grep
 search for strings in file or output
 ```bash
 # find occurences of string with line numbers
@@ -275,7 +285,7 @@ drwxr-xr-x  8 anupal anupal 4.0K Apr 17 14:54 .git
 drwxr-xr-x  4 anupal anupal 4.0K Apr 17 14:53 .
 ```
 
-#### sort
+### sort
 sorts lines in output or file
 ```bash
 sort file1
@@ -291,7 +301,7 @@ sort -u file1
 ls -ltah | sort
 ```
 
-#### uniq
+### uniq
 - remove or show duplicate lines
 - works only on adjacent duplicates
 ```bash
@@ -305,17 +315,17 @@ sort list.txt | uniq -c
 sort list.txt | uniq -c | sort -nr
 ```
 
-#### diff
+### diff
 display difference between two files
 ```bash
 diff file1 file2
 ```
-##### interprettin changes
+#### interprettin changes
 - `2a3` line 3 added after 2
 - `3d2` line 3 deleted
 - `1c1,2` change on line 1 and 2
 
-##### extras
+#### extras
 - `-y` show side by side
 - `u` show like git
 - `-r` compare directories, `-q` will only tell which files differ
@@ -340,7 +350,7 @@ anupal mishra                                                 | anupal-mishra--
                                                               > mishra anupal
 ```
 
-#### echo
+### echo
 prints stuff
 - `-n` no trailing new line
 - `-e` support escape sequence
@@ -360,7 +370,7 @@ echo $(ls -al)
 echo {1..5}
 ```
 
-#### chown
+### chown
 change ownership of files and directories
 ```bash
 # file
@@ -369,7 +379,7 @@ chown <owner>:<group> <file>
 chown -R <owner>:<group> <directory>
 ```
 
-#### chmod
+### chmod
 change file/directory permissions w.r.t owner, group and other users
 
 ```bash
@@ -398,7 +408,7 @@ lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerf
 - `+` to add and `-` to remove
 - one or more permission symbols `r`, `w` and `x`
 
-#### umask
+### umask
 change default permissions applied to files and directories
 ```
 # display defaults
@@ -409,7 +419,7 @@ umask -S
 umask g+r
 ```
 
-#### du
+### du
 calculates size of files and directories in current directory and displays in bytes
 ```bash
 du
@@ -427,7 +437,7 @@ du -h <directory> | sort -nr
 du -h <directory> | sort -nr | head
 ```
 
-#### df
+### df
 display disk usage info
 ```bash
 # human readable
@@ -436,7 +446,7 @@ df -h
 df dir-name
 ```
 
-#### basename
+### basename
 returns the filename or directory name at the end of the path
 ```bash
 anupal@MSI:~$ pwd
@@ -445,7 +455,7 @@ anupal@MSI:~$ basename $(pwd)
 anupal
 ```
 
-#### dirname
+### dirname
 returns parent directory path in given path to a file or a directory
 ```bash
 anupal@MSI:~$ pwd
@@ -454,7 +464,7 @@ anupal@MSI:~$ dirname $(pwd)
 /home
 ```
 
-#### id
+### id
 return user and group identity
 ```bash
 # print current user's user, group id and all groups it is part of
@@ -467,7 +477,7 @@ id -g
 id <username>
 ```
 
-#### ps
+### ps
 display process status
 ```bash
 # display processes created by current user in current session
@@ -497,7 +507,7 @@ ps auxww
     - `L` has pages locked in the memory
 - TIME tells us how long the process has been running.
 
-#### top
+### top
 display running process along with resource consumption
 ```bash
 # sort by CPU consumption
@@ -510,7 +520,7 @@ top -o USER
 - press `shift`+`h` after running to see threads
 - press `ctrl`+`c` or `q` to exit
 
-#### kill
+### kill
 send different signals to running programs
 ```
 # send TERM
@@ -529,13 +539,13 @@ kill -STOP <PID>
 - `CONT` means continue. It can be used to resume a stopped process.
 - `STOP` is not sent to the process, but to the operating system kernel, which immediately stops (but does not terminate) the process.
 
-#### killall
+### killall
 send signal to all processes with matching name
 ```bash
 killall -HUP top
 ```
 
-#### jobs, fg, bg
+### jobs, fg, bg
 - programs can be run in background using `&`
   ```bash
   top &
@@ -583,7 +593,7 @@ killall -HUP top
   anupal@MSI:~$ jobs
   ```
 
-#### type
+### type
 print the type of the command, it can be one of the following
 - an executable
 - a shell built-in program
@@ -599,7 +609,7 @@ anupal@MSI:~$ type pwd
 pwd is a shell builtin
 ```
 
-#### which
+### which
 returns path to the passed command
 ```bash
 anupal@MSI:~$ which ls
@@ -610,7 +620,7 @@ anupal@MSI:~$ which docker
 /snap/bin/docker
 ```
 
-#### nohup
+### nohup
 run a process separate from terminal. It will persist even if terminal is killed
 ```bash
 # will print stdout to nohup.out in current directory
@@ -623,7 +633,7 @@ nohup ping google.com > custom.file 2>&1
 nohup ping google.com > custom.file 2>&1 &
 ```
 
-#### xargs
+### xargs
 convert stdin inputs into command args so they can be easily piped into commands that don't expect stdin args
 
 in below example cat will just print the ls ouput if xargs is not used
@@ -648,14 +658,14 @@ b.txt
 command1 | xargs -I % /bin/bash -c 'command2 %; command3 %'
 ```
 
-#### whoami
+### whoami
 prints the user currently logged into the terminal sessions
 ```bash
 $ whoami
 anupal
 ```
 
-#### who
+### who
 displays users currently logged into the system
 ```bash
 $ who -aH
@@ -665,7 +675,7 @@ LOGIN      console      May  2 11:33               392 id=cons
            run-level 5  May  2 11:33
 ```
 
-#### su
+### su
 switch user
 ```bash
 # switch user env variables are retained
@@ -674,7 +684,7 @@ su john
 su - john
 ```
 
-#### sudo
+### sudo
 super user do, run command with root privileges
 ```bash
 sudo docker ps
@@ -683,11 +693,11 @@ sudo docker ps
 sudo -i
 ```
 
-#### clear
+### clear
 - clears screen and scrollback
 - `clear -x` to retain scrollback or `ctrl`+`l`
 
-#### history
+### history
 display previously executed commands
 ```bash
 history
@@ -698,7 +708,7 @@ history -c
 ```
 - reverse search using `ctrl`+`r`, type command to search through history ans right arrow to select
 
-#### export
+### export
 define variables so they are available in sub-shells
 ```bash
 export FLASK_ENV=development
@@ -706,11 +716,11 @@ export FLASK_ENV=development
 export -n FLASK_ENV=development
 ```
 
-#### crontab
+### crontab
 - create jobs to scheduled at specific intervals
 - refer to https://crontab-generator.org/
 
-#### uname
+### uname
 return OS codename
 ```bash
 $ uname -s
@@ -729,7 +739,7 @@ $ uname -v
 #1 SMP Fri Apr 2 22:23:49 UTC 2021
 ```
 
-#### env
+### env
 prints env variables
 
 ## References
