@@ -1,16 +1,19 @@
-# Shell scripting notes
+# Linux/Mac Shell Command Notes
 
-|   |   |   |   |   |   |
-|---|---|---|---|---|---|
-| [ls](#ls) | [pwd](#pwd) | [mkdir](#mkdir) | [rmdir](#rmdir-and-rm) | [rm](#rmdir-and-rm) | [mv](#mv) |
-| [cp](#cp) | [open](#open)  | [touch](#touch)  | [find](#find)  | [ln](#ln)  | [gzip](#gzip)  |
-| [tar](#tar)  | [alias](#alias)  | [cat](#cat)  | [less](#less)  | [tail](#tail)  | [wc](#wc)  |
-| [grep](#grep)  | [sort](#sort)  | [uniq](#uniq)  | [diff](#diff)  | [echo](#echo)  | [chown](#chown)  |
-| [chmod](#chmod) | [umask](#umask) | [du](#du) | [df](#df) | [basename](#basename) | [dirname](#dirname) |
-| [id](#id) | [ps](#ps) | [top](#top) | [kill](#kill) | [killall](#killall) | [jobs](#jobs-fg-bg) |
-| [fg](#jobs-fg-bg) | [bg](#jobs-fg-bg) | [type](#type) | [which](#which) | [nohup](#nohup) | [xargs](#xargs) |
-| [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) |
-| [export](#export) | [crontab](#crontab) | [uname](#uname) | [env](#env) | - | - |
+## Quick links
+
+|   |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|
+| [ls](#ls) | [pwd](#pwd) | [mkdir](#mkdir) | [rmdir](#rmdir-and-rm) | [rm](#rmdir-and-rm) | [mv](#mv) | [cp](#cp) | [open](#open)  | [touch](#touch)  | [find](#find)  |
+| [ln](#ln)  | [gzip](#gzip)  | [tar](#tar)  | [alias](#alias)  | [cat](#cat)  | [less](#less)  | [tail](#tail)  | [wc](#wc)  | [grep](#grep)  | [sort](#sort)  |
+| [uniq](#uniq)  | [diff](#diff)  | [echo](#echo)  | [chown](#chown)  | [chmod](#chmod) | [umask](#umask) | [du](#du) | [df](#df) | [basename](#basename) | [dirname](#dirname) |
+| [id](#id) | [ps](#ps) | [top](#top) | [kill](#kill) | [killall](#killall) | [jobs](#jobs-fg-bg) | [fg](#jobs-fg-bg) | [bg](#jobs-fg-bg) | [type](#type) | [which](#which) |
+| [nohup](#nohup) | [xargs](#xargs) | [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) | [export](#export) | [crontab](#crontab) 
+| [uname](#uname) | [env](#env) | [arp](#arp) | [ip](#ip) | [dig](#dig) | - | - | - | - | - |
+
+[References](#references)
+
+## Commands
 
 ### ls
 list stuff
@@ -23,7 +26,7 @@ ls -h # show file sizes in human form
 ```
 ```bash
 ls -ltah
-anupal@MSI:~/workspace$ ls -ltah
+:~/workspace$ ls -ltah
 total 28K
 drwxr-xr-x 23 anupal anupal 4.0K May  1 21:20 ..
 -rw-r--r--  1 anupal anupal  411 Apr 17 15:27 Dockerfile
@@ -142,8 +145,8 @@ ln original-file link-name
 - points to the path of the original
 - becomes invalid if original is deleted
 ```bash
-anupal@MSI:~/scratchpad$ ln -s ../alt-party/Dockerfile
-anupal@MSI:~/scratchpad$ ls -ltha
+:~/scratchpad$ ln -s ../alt-party/Dockerfile
+:~/scratchpad$ ls -ltha
 total 8.0K
 drwxr-xr-x  2 anupal anupal 4.0K May  1 22:15 .
 lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerfile
@@ -159,9 +162,9 @@ gzip file
 gzip -k file
 
 # compress all files in a directory
-anupal@MSI:~/scratchpad$ gzip -kr temp
-anupal@MSI:~/scratchpad$ cd temp
-anupal@MSI:~/scratchpad/temp$ ls
+:~/scratchpad$ gzip -kr temp
+:~/scratchpad$ cd temp
+:~/scratchpad/temp$ ls
 a.txt  a.txt.gz  b.txt  b.txt.gz
 ```
 
@@ -277,7 +280,7 @@ grep -n -i string file1
 grep -n -o string file1
 
 # search regex
-anupal@MSI:~/alt-party$ ls -ltha | grep -E "*Apr*"
+:~/alt-party$ ls -ltha | grep -E "*Apr*"
 -rw-r--r--  1 anupal anupal  411 Apr 17 15:27 Dockerfile
 drwxr-xr-x  2 anupal anupal 4.0K Apr 17 15:27 logs
 -rwxr-xr-x  1 anupal anupal  263 Apr 17 15:16 build-image.sh
@@ -331,21 +334,21 @@ diff file1 file2
 - `-r` compare directories, `-q` will only tell which files differ
 
 ```bash
-anupal@MSI:~/scratchpad$ diff anupal.txt anupal2.txt
+:~/scratchpad$ diff anupal.txt anupal2.txt
 1c1,2
 < anupal mishra
 ---
 > anupal-mishra--
 > mishra anupal
-anupal@MSI:~/scratchpad$
-anupal@MSI:~/scratchpad$ diff anupal.txt anupal2.txt -u
+:~/scratchpad$
+:~/scratchpad$ diff anupal.txt anupal2.txt -u
 --- anupal.txt  2022-05-02 00:03:09.827219900 +0530
 +++ anupal2.txt 2022-05-02 00:04:48.387219900 +0530
 @@ -1 +1,2 @@
 -anupal mishra
 +anupal-mishra--
 +mishra anupal
-anupal@MSI:~/scratchpad$ diff anupal.txt anupal2.txt -y
+:~/scratchpad$ diff anupal.txt anupal2.txt -y
 anupal mishra                                                 | anupal-mishra--
                                                               > mishra anupal
 ```
@@ -383,7 +386,7 @@ chown -R <owner>:<group> <directory>
 change file/directory permissions w.r.t owner, group and other users
 
 ```bash
-anupal@MSI:~/scratchpad$ ls -lath
+:~/scratchpad$ ls -lath
 total 28K
 drwxr-xr-x  4 anupal anupal 4.0K May  2 00:04 .
 drwxr-xr-x 25 anupal anupal 4.0K May  2 00:04 ..
@@ -449,18 +452,18 @@ df dir-name
 ### basename
 returns the filename or directory name at the end of the path
 ```bash
-anupal@MSI:~$ pwd
+:~$ pwd
 /home/anupal
-anupal@MSI:~$ basename $(pwd)
+:~$ basename $(pwd)
 anupal
 ```
 
 ### dirname
 returns parent directory path in given path to a file or a directory
 ```bash
-anupal@MSI:~$ pwd
+:~$ pwd
 /home/anupal
-anupal@MSI:~$ dirname $(pwd)
+:~$ dirname $(pwd)
 /home
 ```
 
@@ -553,14 +556,14 @@ killall -HUP top
   ```
 - we can see all the background jobs using `jobs`
   ```bash
-  anupal@MSI:~$ sleep 50 &
+  :~$ sleep 50 &
   [2] 1836
-  anupal@MSI:~$ jobs
+  :~$ jobs
   [1]+  Stopped                 top
   [2]-  Running                 sleep 50 &
 
   # display with pid
-  anupal@MSI:~$ jobs -l
+  :~$ jobs -l
   [1]+  1835 Stopped (signal)        top
   [2]-  1836 Done                    sleep 50
   ```
@@ -570,27 +573,27 @@ killall -HUP top
   ```
 - you can suspend a foreground process using `ctrl`+`z` and later run in background using `bg <number>`
   ```bash
-  anupal@MSI:~$ sleep 50
+  :~$ sleep 50
   ^Z
   [1]+  Stopped                 sleep 50
-  anupal@MSI:~$ jobs
+  :~$ jobs
   [1]+  Stopped                 sleep 50
-  anupal@MSI:~$ bg 1
+  :~$ bg 1
   [1]+ sleep 50 &
-  anupal@MSI:~$ jobs
+  :~$ jobs
   [1]+  Running                 sleep 50 &
   ```
 - or you can bring it back to foreground
   ```bash
-  anupal@MSI:~$ vim .
+  :~$ vim .
 
   [1]+  Stopped                 vim .
-  anupal@MSI:~$ jobs
+  :~$ jobs
   [1]+  Stopped                 vim .
-  anupal@MSI:~$ fg 1
+  :~$ fg 1
   vim .
-  anupal@MSI:~$ # exited vim
-  anupal@MSI:~$ jobs
+  :~$ # exited vim
+  :~$ jobs
   ```
 
 ### type
@@ -601,22 +604,22 @@ print the type of the command, it can be one of the following
 - an alias
 
 ```bash
-anupal@MSI:~$ type top
+:~$ type top
 top is hashed (/usr/bin/top)
-anupal@MSI:~$ type ls
+:~$ type ls
 ls is aliased to `ls --color=auto'
-anupal@MSI:~$ type pwd
+:~$ type pwd
 pwd is a shell builtin
 ```
 
 ### which
 returns path to the passed command
 ```bash
-anupal@MSI:~$ which ls
+:~$ which ls
 /usr/bin/ls
-anupal@MSI:~$ which top
+:~$ which top
 /usr/bin/top
-anupal@MSI:~$ which docker
+:~$ which docker
 /snap/bin/docker
 ```
 
@@ -638,16 +641,16 @@ convert stdin inputs into command args so they can be easily piped into commands
 
 in below example cat will just print the ls ouput if xargs is not used
 ```bash
-anupal@MSI:~/scratchpad/temp$ ls -l
+:~/scratchpad/temp$ ls -l
 total 8
 -rw-r--r-- 1 anupal anupal 29 May  1 22:25 a.txt
 -rw-r--r-- 1 anupal anupal 40 May  1 22:25 b.txt
 
-anupal@MSI:~/scratchpad/temp$ ls | xargs cat
+:~/scratchpad/temp$ ls | xargs cat
 hehehrehhadfad adfhadsfhadf
 hehehrehhadfad adfhadsfhadfasdffffffff
 
-anupal@MSI:~/scratchpad/temp$ ls | cat
+:~/scratchpad/temp$ ls | cat
 a.txt
 b.txt
 ```
@@ -741,6 +744,54 @@ $ uname -v
 
 ### env
 prints env variables
+
+### arp
+```bash
+# arp entries
+arp -a
+# delte arp cache
+sudo arp -a -d
+# delete specific address
+arp -d ip_address
+# add specific address
+arp -s ip_address mac_address
+```
+### ip
+```bash
+# display interface addresses
+ip a
+# short
+ip -brief a
+# short with l2 info
+ip -brief l
+# set link up/down
+ip link set interface <up/down>
+
+# routes
+# display
+ip r
+# add default
+ip route add default via <ip> dev <interface>
+# add static
+ip route add <ip> via <ip> dev <interface>
+```
+
+### dig
+DNS lookup for manual testing or debugging
+```bash
+# lookup A records
+dig google.com
+# short answer
+dig +short google.com
+# query for a specific record type
+dig +short google.com CNAME
+# use a particular DNS server
+dig @8.8.8.8 google.com
+# reverse lookup
+dig -x 8.8.8.8
+# find authoritative ns for domain
+dig +nssearch google.com
+```
 
 ## References
 
