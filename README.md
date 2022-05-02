@@ -429,9 +429,313 @@ du -h <directory> | sort -nr | head
 
 #### df
 display disk usage info
+```bash
+# human readable
+df -h
+# get info about the disk a directory is on
+df dir-name
+```
+
+#### basename
+returns the filename or directory name at the end of the path
+```bash
+anupal@MSI:~$ pwd
+/home/anupal
+anupal@MSI:~$ basename $(pwd)
+anupal
+```
+
+#### dirname
+returns parent directory path in given path to a file or a directory
+```bash
+anupal@MSI:~$ pwd
+/home/anupal
+anupal@MSI:~$ dirname $(pwd)
+/home
+```
+
+#### id
+return user and group identity
+```bash
+# print current user's user, group id and all groups it is part of
+id
+# user id
+id -u
+# group id
+id -g
+# for a arbitrary user
+id <username>
+```
+
+#### ps
+display process status
+```bash
+# display processes created by current user in current session
+ps
+# display all processes running in the system along with owner users
+# a - include other users processes, x - include processes not linked to terminal, u - print owner
+ps aux
+# include full command string which gets omitted if too long
+ps auxww
+```
+
+- The first information is PID, the process ID. This is key when you want to reference this process in another command, for example to kill it.
+- Then we have TT that tells us the terminal id used.
+- Then STAT tells us the state of the process:
+  - `I` a process that is idle (sleeping for longer than about 20 seconds)
+  - `R` a runnable process
+  - `S` a process that is sleeping for less than about 20 seconds
+  - `T` a stopped process
+  - `U` a process in uninterruptible wait
+  - `Z` a dead process (a zombie)
+  - If you have more than one letter, the second represents further information, which can be very technical.
+    - It's common to have `+` which indicates that the process is in the foreground in its terminal.
+    - `s` means the process is a session leader.
+    - `<` high-priority (not nice to other users)
+    - `N` low-priority (nice to other users)
+    - `l` multithreaded
+    - `L` has pages locked in the memory
+- TIME tells us how long the process has been running.
+
+#### top
+display running process along with resource consumption
+```bash
+# sort by CPU consumption
+top
+# sort by mem
+top -o %MEM
+# sort by USER
+top -o USER
+```
+- press `shift`+`h` after running to see threads
+- press `ctrl`+`c` or `q` to exit
+
+#### kill
+send different signals to running programs
+```
+# send TERM
+kill -HUP <PID>
+kill -INT <PID>
+kill -KILL <PID>
+kill -TERM <PID>
+kill -CONT <PID>
+kill -STOP <PID>
+```
+
+- `HUP` means hang up. It's sent automatically when a terminal window that started a process is closed before terminating the process.
+- `INT` means interrupt, and it sends the same signal used when we press ctrl-C in the terminal, which usually terminates the process.
+- `KILL` is not sent to the process, but to the operating system kernel, which immediately stops and terminates the process.
+- `TERM` means terminate. The process will receive it and terminate itself. It's the default signal sent by kill.
+- `CONT` means continue. It can be used to resume a stopped process.
+- `STOP` is not sent to the process, but to the operating system kernel, which immediately stops (but does not terminate) the process.
+
+#### killall
+send signal to all processes with matching name
+```bash
+killall -HUP top
+```
+
+#### jobs, fg, bg
+- programs can be run in background using `&`
+  ```bash
+  top &
+  sleep 50 &
+  ```
+- we can see all the background jobs using `jobs`
+  ```bash
+  anupal@MSI:~$ sleep 50 &
+  [2] 1836
+  anupal@MSI:~$ jobs
+  [1]+  Stopped                 top
+  [2]-  Running                 sleep 50 &
+
+  # display with pid
+  anupal@MSI:~$ jobs -l
+  [1]+  1835 Stopped (signal)        top
+  [2]-  1836 Done                    sleep 50
+  ```
+- these jobs can be brought to foreground using `fg`
+  ```
+  fg 1
+  ```
+- you can suspend a foreground process using `ctrl`+`z` and later run in background using `bg <number>`
+  ```bash
+  anupal@MSI:~$ sleep 50
+  ^Z
+  [1]+  Stopped                 sleep 50
+  anupal@MSI:~$ jobs
+  [1]+  Stopped                 sleep 50
+  anupal@MSI:~$ bg 1
+  [1]+ sleep 50 &
+  anupal@MSI:~$ jobs
+  [1]+  Running                 sleep 50 &
+  ```
+- or you can bring it back to foreground
+  ```bash
+  anupal@MSI:~$ vim .
+
+  [1]+  Stopped                 vim .
+  anupal@MSI:~$ jobs
+  [1]+  Stopped                 vim .
+  anupal@MSI:~$ fg 1
+  vim .
+  anupal@MSI:~$ # exited vim
+  anupal@MSI:~$ jobs
+  ```
+
+#### type
+print the type of the command, it can be one of the following
+- an executable
+- a shell built-in program
+- a shell function
+- an alias
+
+```bash
+anupal@MSI:~$ type top
+top is hashed (/usr/bin/top)
+anupal@MSI:~$ type ls
+ls is aliased to `ls --color=auto'
+anupal@MSI:~$ type pwd
+pwd is a shell builtin
+```
+
+#### which
+returns path to the passed command
+```bash
+anupal@MSI:~$ which ls
+/usr/bin/ls
+anupal@MSI:~$ which top
+/usr/bin/top
+anupal@MSI:~$ which docker
+/snap/bin/docker
+```
+
+#### nohup
+run a process separate from terminal. It will persist even if terminal is killed
+```bash
+# will print stdout to nohup.out in current directory
+nohup ping google.com
+# will print stdout to custom file
+nohup ping google.com > custom.file
+# will print stdout and stderr to custom file
+nohup ping google.com > custom.file 2>&1
+# background nohup process
+nohup ping google.com > custom.file 2>&1 &
+```
+
+#### xargs
+convert stdin inputs into command args so they can be easily piped into commands that don't expect stdin args
+
+in below example cat will just print the ls ouput if xargs is not used
+```bash
+anupal@MSI:~/scratchpad/temp$ ls -l
+total 8
+-rw-r--r-- 1 anupal anupal 29 May  1 22:25 a.txt
+-rw-r--r-- 1 anupal anupal 40 May  1 22:25 b.txt
+
+anupal@MSI:~/scratchpad/temp$ ls | xargs cat
+hehehrehhadfad adfhadsfhadf
+hehehrehhadfad adfhadsfhadfasdffffffff
+
+anupal@MSI:~/scratchpad/temp$ ls | cat
+a.txt
+b.txt
+```
+- `-p` prompt user before proceeding
+- `-n` execute one by one
+- `-I` describe actions on parsed args using an placeholder
+```bash
+command1 | xargs -I % /bin/bash -c 'command2 %; command3 %'
+```
+
+#### whoami
+prints the user currently logged into the terminal sessions
+```bash
+$ whoami
+anupal
+```
+
+#### who
+displays users currently logged into the system
+```bash
+$ who -aH
+NAME       LINE         TIME         IDLE          PID COMMENT  EXIT
+           system boot  May  2 11:33
+LOGIN      console      May  2 11:33               392 id=cons
+           run-level 5  May  2 11:33
+```
+
+#### su
+switch user
+```bash
+# switch user env variables are retained
+su john
+# env variables are not retained
+su - john
+```
+
+#### sudo
+super user do, run command with root privileges
+```bash
+sudo docker ps
+
+# enter root shell
+sudo -i
+```
+
+#### clear
+- clears screen and scrollback
+- `clear -x` to retain scrollback or `ctrl`+`l`
+
+#### history
+display previously executed commands
+```bash
+history
+# display last 10
+history 10
+# clear history
+history -c
+```
+- reverse search using `ctrl`+`r`, type command to search through history ans right arrow to select
+
+#### export
+define variables so they are available in sub-shells
+```bash
+export FLASK_ENV=development
+# to remove
+export -n FLASK_ENV=development
+```
+
+#### crontab
+- create jobs to scheduled at specific intervals
+- refer to https://crontab-generator.org/
+
+#### uname
+return OS codename
+```bash
+$ uname -s
+Linux
+# display hardware name
+$ uname -m
+x86_64
+# display processor architecture
+$ uname -p
+x86_64
+# release
+$ uname -r
+5.10.16.3-microsoft-standard-WSL2
+# release version
+$ uname -v
+#1 SMP Fri Apr 2 22:23:49 UTC 2021
+```
+
+#### env
+prints env variables
 
 ## References
 
 - Flavio Copes Linux Handbook: https://www.freecodecamp.org/news/the-linux-commands-handbook/
 - Freecodecamp Bash Scripting: https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=120s
 - Grep regex: https://linuxize.com/post/regular-expressions-in-grep/
+- Sort TOP: https://www.lostsaloon.com/technology/how-to-sort-the-output-of-top-command-by-memory-or-cpu-usage/
+- Nohup: https://www.journaldev.com/27875/nohup-command-in-linux
