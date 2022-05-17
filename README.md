@@ -9,7 +9,7 @@
 | [uniq](#uniq)  | [diff](#diff)  | [echo](#echo)  | [chown](#chown)  | [chmod](#chmod) | [umask](#umask) | [du](#du) | [df](#df) | [basename](#basename) | [dirname](#dirname) |
 | [id](#id) | [ps](#ps) | [top](#top) | [kill](#kill) | [killall](#killall) | [jobs](#jobs-fg-bg) | [fg](#jobs-fg-bg) | [bg](#jobs-fg-bg) | [type](#type) | [which](#which) |
 | [nohup](#nohup) | [xargs](#xargs) | [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) | [export](#export) | [crontab](#crontab)
-| [uname](#uname) | [env](#env) | [arp](#arp) | [ip](#ip) | [dig](#dig) | - | - | - | - | - |
+| [uname](#uname) | [env](#env) | [arp](#arp) | [ip](#ip) | [dig](#dig) | [nc](#nc) | - | - | - | - |
 
 [References](#references)
 
@@ -921,6 +921,45 @@ dig @8.8.8.8 google.com
 dig -x 8.8.8.8
 # find authoritative ns for domain
 dig +nssearch google.com
+```
+
+### nc
+
+Create TCP/UDP connections in network. Can be used to poke to find which services are running on a host.
+
+```bash
+# connect to a server
+nc -v $SERVER_HOST $PORT
+
+# check if TCP port is open without sending data
+$ nc -zv 8.8.8.8 53
+Connection to 8.8.8.8 53 port [tcp/domain] succeeded!
+# UDP
+$ nc -zuv 8.8.8.8 53
+Connection to 8.8.8.8 53 port [udp/domain] succeeded!
+```
+
+Creating server client pair on localhost.
+
+```bash
+# server
+nc -l -p 2222 -vv
+
+# client
+nc localhost 2222
+
+# type and hit enter to send message
+```
+
+This can also be used to transfer files.
+
+```bash
+# receiver will listen on a port
+nc -l -p 2222 > file.txt
+
+# sender will connect and transfer the file
+# here -w specifies the idle timeout so connection is terminated if file transfer is completed
+nc -w 2 localhost 2222 < testfile.txt
 ```
 
 ## References
