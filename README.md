@@ -8,7 +8,7 @@
 | [ln](#ln)  | [gzip](#gzip)  | [tar](#tar)  | [alias](#alias)  | [cat](#cat)  | [less](#less)  | [tail](#tail)  | [wc](#wc)  | [grep](#grep)  | [sort](#sort)  |
 | [uniq](#uniq)  | [diff](#diff)  | [echo](#echo)  | [chown](#chown)  | [chmod](#chmod) | [umask](#umask) | [du](#du) | [df](#df) | [basename](#basename) | [dirname](#dirname) |
 | [id](#id) | [ps](#ps) | [top](#top) | [kill](#kill) | [killall](#killall) | [jobs](#jobs-fg-bg) | [fg](#jobs-fg-bg) | [bg](#jobs-fg-bg) | [type](#type) | [which](#which) |
-| [nohup](#nohup) | [xargs](#xargs) | [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) | [export](#export) | [crontab](#crontab) 
+| [nohup](#nohup) | [xargs](#xargs) | [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) | [export](#export) | [crontab](#crontab)
 | [uname](#uname) | [env](#env) | [arp](#arp) | [ip](#ip) | [dig](#dig) | - | - | - | - | - |
 
 [References](#references)
@@ -16,7 +16,9 @@
 ## Commands
 
 ### ls
+
 list stuff
+
 ```bash
 ls -l # display as formatted list
 ls -t # sort by time, recent first
@@ -24,6 +26,7 @@ ls -a # show hidden files as well
 ls -r # sort in reverse
 ls -h # show file sizes in human form
 ```
+
 ```bash
 ls -ltah
 :~/workspace$ ls -ltah
@@ -39,10 +42,13 @@ drwxr-xr-x  4 anupal anupal 4.0K Apr 17 14:53 .
 ```
 
 ### pwd
+
 shows current directory
 
 ### mkdir
+
 create new directory
+
 ```bash
 mkdir directory-name
 # create nested directory as well
@@ -50,7 +56,9 @@ mkdir -p directory/sub-directory
 ```
 
 ### rmdir and rm
+
 delete file or directory
+
 ```bash
 # deletes empty directory
 rmdir directory1
@@ -63,7 +71,9 @@ rm -rf file1 directory1
 ```
 
 ### mv
+
 move or rename file or directory
+
 ```bash
 # move file
 mv file1 ~/some/other/path/
@@ -74,7 +84,9 @@ mv old-name new-name
 ```
 
 ### cp
+
 copy stuff
+
 ```bash
 # copy file
 cp file1 file1-copy
@@ -83,7 +95,9 @@ cp -r dir1 dir2
 ```
 
 ### open
+
 opens directory or application in Finder
+
 ```bash
 # open current directory
 open .
@@ -94,13 +108,17 @@ open <app-name>
 ```
 
 ### touch
+
 create new file or update timestamp of existing file
+
 ```bash
 touch file1
 ```
 
 ### find
+
 Find files and directories, optionally execute stuff on results
+
 ```bash
 # find files by name and wildcard in current directory
 find . -name '*.js'
@@ -127,23 +145,30 @@ find -mtime -1
 ```
 
 Find and execute on each result
+
 ```bash
 find . -type -f -exec rm -rf {} \;
 find . -type -f -exec cat {} \;
 ```
 
 ### ln
+
 Creates link (like shortcut on windows) for file or directory
+
 #### hard link
+
 - Points to the memory location where file is stored
 - Still valid if original file is deleted
+
 ```bash
 ln original-file link-name
 ```
 
 #### soft link
+
 - points to the path of the original
 - becomes invalid if original is deleted
+
 ```bash
 :~/scratchpad$ ln -s ../alt-party/Dockerfile
 :~/scratchpad$ ls -ltha
@@ -154,7 +179,9 @@ drwxr-xr-x 24 anupal anupal 4.0K May  1 22:14 ..
 ```
 
 ### gzip
+
 compress a file using LZ777 compression protocol
+
 ```bash
 # deletes original
 gzip file
@@ -169,17 +196,21 @@ a.txt  a.txt.gz  b.txt  b.txt.gz
 ```
 
 compression levels 1 (fastest) to 9 (slowest, best)
+
 ```bash
 gzip -9 file1
 ```
 
 decompress
+
 ```bash
 gzip -d file.gz
 ```
 
 ### tar
+
 creates an archive of specified files and folders (optionally gzip as well), can also extract
+
 ```bash
 # create an archive of files
 tar -cf archive.tar file1 file2
@@ -195,14 +226,18 @@ tar -xf archive.tar.gz
 ```
 
 ### alias
+
 create alias for commonly used commands to save time
+
 ```bash
 alias psgrep='ps aux | grep'
 ```
 
 #### RC file stuff
+
 - only saved to current terminal session. So, save to rc file for future use.
 - distiction between single and double quotes
+
 ```bash
 # gets executed when rc file is sources so shows incorrect value of PWD
 alias lsthis="ls $PWD"
@@ -211,7 +246,9 @@ alias lscurrent='ls $PWD'
 ```
 
 ### cat
+
 contatenate files to stdout
+
 ```bash
 # print contents of files concatened in terminal window
 cat file1 file2
@@ -224,10 +261,13 @@ cat -s file1
 ```
 
 ### less
+
 preview contents of a file in a dedicated view with extra features
+
 ```bash
 less file1
 ```
+
 - `q` to quit
 - `up` and `down` to navigate line by line
 - `space` and `b` to navigate page by page
@@ -237,14 +277,18 @@ less file1
 - `F` to tail
 
 #### Open multiple files
+
 ```bash
 less file1 file2
 ```
+
 - `:n` next file
 - `:p` previous file
 
 ### tail
+
 view from end of file
+
 ```bash
 # print last 10 lines
 tail -n 10 file1
@@ -255,20 +299,25 @@ tail -n +10 file1.log
 ```
 
 ### wc
+
 prints number of characters, words, and lines
+
 ```bash
 # check in file
 wc file1
 # check in piped output
 ls -la | wc
 ```
+
 - `-w` for only word count
 - `-c` for only char count
 - `-l` for only line count
 - `m` for non-ASCII charsets
 
 ### grep
+
 search for strings in file or output
+
 ```bash
 # find occurences of string with line numbers
 grep -n string file1
@@ -289,7 +338,9 @@ drwxr-xr-x  4 anupal anupal 4.0K Apr 17 14:53 .
 ```
 
 ### sort
+
 sorts lines in output or file
+
 ```bash
 sort file1
 # reverse
@@ -305,8 +356,10 @@ ls -ltah | sort
 ```
 
 ### uniq
+
 - remove or show duplicate lines
 - works only on adjacent duplicates
+
 ```bash
 # remove duplicates
 sort list.txt | uniq
@@ -319,16 +372,21 @@ sort list.txt | uniq -c | sort -nr
 ```
 
 ### diff
+
 display difference between two files
+
 ```bash
 diff file1 file2
 ```
+
 #### interprettin changes
+
 - `2a3` line 3 added after 2
 - `3d2` line 3 deleted
 - `1c1,2` change on line 1 and 2
 
 #### extras
+
 - `-y` show side by side
 - `u` show like git
 - `-r` compare directories, `-q` will only tell which files differ
@@ -354,7 +412,9 @@ anupal mishra                                                 | anupal-mishra--
 ```
 
 ### echo
+
 prints stuff
+
 - `-n` no trailing new line
 - `-e` support escape sequence
 
@@ -374,7 +434,9 @@ echo {1..5}
 ```
 
 ### chown
+
 change ownership of files and directories
+
 ```bash
 # file
 chown <owner>:<group> <file>
@@ -383,6 +445,7 @@ chown -R <owner>:<group> <directory>
 ```
 
 ### chmod
+
 change file/directory permissions w.r.t owner, group and other users
 
 ```bash
@@ -397,12 +460,15 @@ drwxr-xr-x  3 anupal anupal 4.0K May  1 22:39 abc
 drwxr-xr-x  2 anupal anupal 4.0K May  1 22:25 temp
 lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerfile
 ```
+
 `drwxr-xr-x` defines the permissions of the file or directory
+
 - first letter indicates type - `d` directory, `-` file and `l` link
 - then 3 sets of 3 chars representing permissions for owner, group and others
 - `rwx` means read, write and execute permissions
 
 #### using chmod to change permissions
+
 - `chmod` followed by one or more char
   - `a` stands for all
   - `u` stands for user
@@ -412,7 +478,9 @@ lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerf
 - one or more permission symbols `r`, `w` and `x`
 
 ### umask
+
 change default permissions applied to files and directories
+
 ```
 # display defaults
 umask
@@ -423,7 +491,9 @@ umask g+r
 ```
 
 ### du
+
 calculates size of files and directories in current directory and displays in bytes
+
 ```bash
 du
 du *
@@ -441,7 +511,9 @@ du -h <directory> | sort -nr | head
 ```
 
 ### df
+
 display disk usage info
+
 ```bash
 # human readable
 df -h
@@ -450,7 +522,9 @@ df dir-name
 ```
 
 ### basename
+
 returns the filename or directory name at the end of the path
+
 ```bash
 :~$ pwd
 /home/anupal
@@ -459,7 +533,9 @@ anupal
 ```
 
 ### dirname
+
 returns parent directory path in given path to a file or a directory
+
 ```bash
 :~$ pwd
 /home/anupal
@@ -468,7 +544,9 @@ returns parent directory path in given path to a file or a directory
 ```
 
 ### id
+
 return user and group identity
+
 ```bash
 # print current user's user, group id and all groups it is part of
 id
@@ -481,7 +559,9 @@ id <username>
 ```
 
 ### ps
+
 display process status
+
 ```bash
 # display processes created by current user in current session
 ps
@@ -511,7 +591,9 @@ ps auxww
 - TIME tells us how long the process has been running.
 
 ### top
+
 display running process along with resource consumption
+
 ```bash
 # sort by CPU consumption
 top
@@ -520,11 +602,14 @@ top -o %MEM
 # sort by USER
 top -o USER
 ```
+
 - press `shift`+`h` after running to see threads
 - press `ctrl`+`c` or `q` to exit
 
 ### kill
+
 send different signals to running programs
+
 ```
 # send TERM
 kill -HUP <PID>
@@ -543,18 +628,24 @@ kill -STOP <PID>
 - `STOP` is not sent to the process, but to the operating system kernel, which immediately stops (but does not terminate) the process.
 
 ### killall
+
 send signal to all processes with matching name
+
 ```bash
 killall -HUP top
 ```
 
 ### jobs, fg, bg
+
 - programs can be run in background using `&`
+
   ```bash
   top &
   sleep 50 &
   ```
+
 - we can see all the background jobs using `jobs`
+
   ```bash
   :~$ sleep 50 &
   [2] 1836
@@ -567,11 +658,15 @@ killall -HUP top
   [1]+  1835 Stopped (signal)        top
   [2]-  1836 Done                    sleep 50
   ```
+
 - these jobs can be brought to foreground using `fg`
+
   ```
   fg 1
   ```
+
 - you can suspend a foreground process using `ctrl`+`z` and later run in background using `bg <number>`
+
   ```bash
   :~$ sleep 50
   ^Z
@@ -583,7 +678,9 @@ killall -HUP top
   :~$ jobs
   [1]+  Running                 sleep 50 &
   ```
+
 - or you can bring it back to foreground
+
   ```bash
   :~$ vim .
 
@@ -597,7 +694,9 @@ killall -HUP top
   ```
 
 ### type
+
 print the type of the command, it can be one of the following
+
 - an executable
 - a shell built-in program
 - a shell function
@@ -613,7 +712,9 @@ pwd is a shell builtin
 ```
 
 ### which
+
 returns path to the passed command
+
 ```bash
 :~$ which ls
 /usr/bin/ls
@@ -624,7 +725,9 @@ returns path to the passed command
 ```
 
 ### nohup
+
 run a process separate from terminal. It will persist even if terminal is killed
+
 ```bash
 # will print stdout to nohup.out in current directory
 nohup ping google.com
@@ -637,9 +740,11 @@ nohup ping google.com > custom.file 2>&1 &
 ```
 
 ### xargs
+
 convert stdin inputs into command args so they can be easily piped into commands that don't expect stdin args
 
 in below example cat will just print the ls ouput if xargs is not used
+
 ```bash
 :~/scratchpad/temp$ ls -l
 total 8
@@ -654,22 +759,28 @@ hehehrehhadfad adfhadsfhadfasdffffffff
 a.txt
 b.txt
 ```
+
 - `-p` prompt user before proceeding
 - `-n` execute one by one
 - `-I` describe actions on parsed args using an placeholder
+
 ```bash
 command1 | xargs -I % /bin/bash -c 'command2 %; command3 %'
 ```
 
 ### whoami
+
 prints the user currently logged into the terminal sessions
+
 ```bash
 $ whoami
 anupal
 ```
 
 ### who
+
 displays users currently logged into the system
+
 ```bash
 $ who -aH
 NAME       LINE         TIME         IDLE          PID COMMENT  EXIT
@@ -679,7 +790,9 @@ LOGIN      console      May  2 11:33               392 id=cons
 ```
 
 ### su
+
 switch user
+
 ```bash
 # switch user env variables are retained
 su john
@@ -688,7 +801,9 @@ su - john
 ```
 
 ### sudo
+
 super user do, run command with root privileges
+
 ```bash
 sudo docker ps
 
@@ -697,11 +812,14 @@ sudo -i
 ```
 
 ### clear
+
 - clears screen and scrollback
 - `clear -x` to retain scrollback or `ctrl`+`l`
 
 ### history
+
 display previously executed commands
+
 ```bash
 history
 # display last 10
@@ -709,10 +827,13 @@ history 10
 # clear history
 history -c
 ```
+
 - reverse search using `ctrl`+`r`, type command to search through history ans right arrow to select
 
 ### export
+
 define variables so they are available in sub-shells
+
 ```bash
 export FLASK_ENV=development
 # to remove
@@ -720,11 +841,14 @@ export -n FLASK_ENV=development
 ```
 
 ### crontab
+
 - create jobs to scheduled at specific intervals
-- refer to https://crontab-generator.org/
+- refer to <https://crontab-generator.org/>
 
 ### uname
+
 return OS codename
+
 ```bash
 $ uname -s
 Linux
@@ -743,9 +867,11 @@ $ uname -v
 ```
 
 ### env
+
 prints env variables
 
 ### arp
+
 ```bash
 # arp entries
 arp -a
@@ -756,7 +882,9 @@ arp -d ip_address
 # add specific address
 arp -s ip_address mac_address
 ```
+
 ### ip
+
 ```bash
 # display interface addresses
 ip a
@@ -777,7 +905,9 @@ ip route add <ip> via <ip> dev <interface>
 ```
 
 ### dig
+
 DNS lookup for manual testing or debugging
+
 ```bash
 # lookup A records
 dig google.com
@@ -795,8 +925,8 @@ dig +nssearch google.com
 
 ## References
 
-- Flavio Copes Linux Handbook: https://www.freecodecamp.org/news/the-linux-commands-handbook/
-- Freecodecamp Bash Scripting: https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=120s
-- Grep regex: https://linuxize.com/post/regular-expressions-in-grep/
-- Sort TOP: https://www.lostsaloon.com/technology/how-to-sort-the-output-of-top-command-by-memory-or-cpu-usage/
-- Nohup: https://www.journaldev.com/27875/nohup-command-in-linux
+- Flavio Copes Linux Handbook: <https://www.freecodecamp.org/news/the-linux-commands-handbook/>
+- Freecodecamp Bash Scripting: <https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=120s>
+- Grep regex: <https://linuxize.com/post/regular-expressions-in-grep/>
+- Sort TOP: <https://www.lostsaloon.com/technology/how-to-sort-the-output-of-top-command-by-memory-or-cpu-usage/>
+- Nohup: <https://www.journaldev.com/27875/nohup-command-in-linux>
