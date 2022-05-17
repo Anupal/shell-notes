@@ -481,7 +481,7 @@ lrwxrwxrwx  1 anupal anupal   23 May  1 22:15 Dockerfile -> ../alt-party/Dockerf
 
 change default permissions applied to files and directories
 
-```
+```bash
 # display defaults
 umask
 # display defaults in human readable form
@@ -610,7 +610,7 @@ top -o USER
 
 send different signals to running programs
 
-```
+```bash
 # send TERM
 kill -HUP <PID>
 kill -INT <PID>
@@ -661,7 +661,7 @@ killall -HUP top
 
 - these jobs can be brought to foreground using `fg`
 
-  ```
+  ```bash
   fg 1
   ```
 
