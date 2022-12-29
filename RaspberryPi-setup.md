@@ -66,8 +66,8 @@ bogus-priv                      #Never forward addresses in the non-routed addre
 dhcp-range=192.168.4.50,192.168.4.150,12h
 ```
 
-### 4.4 Core config for Access point - 2.4GHz
-- Create `/etc/hostapd/hostapd.conf`
+### 4.4 Core config for Access point
+- Create `/etc/hostapd/hostapd.conf` - 2.4GHz
   ```
   # Set the channel (frequency) of the host access point
   channel=1
@@ -95,6 +95,46 @@ dhcp-range=192.168.4.50,192.168.4.150,12h
   # I commented out the lines below in my implementation, but I kept them here for reference.
   # Enable WMM
   #wmm_enabled=1
+  # Enable 40MHz channels with 20ns guard interval
+  #ht_capab=[HT40][SHORT-GI-20][DSSS_CCK-40]
+  ```
+- Create `/etc/hostapd/hostapd.conf` - 5GHz
+  ```
+  # Set the channel (frequency) of the host access point
+  channel=36
+  # Set the SSID broadcast by your access point (replace with your own, of course)
+  ssid=yourSSIDhere
+  # This sets the passphrase for your access point (again, use your own)
+  wpa_passphrase=passwordBetween8and64charactersLong
+  
+  # IEEE stuff
+  country_code=IN
+  # limit the frequencies used to those allowed in the country
+  ieee80211d=1
+  # 802.11n support
+  ieee80211n=1
+  # 802.11ac support
+  ieee80211ac=1
+  
+  # This is the name of the WiFi interface we configured above
+  interface=uap0
+  # Use the 5GHz band
+  hw_mode=a
+  # Accept all MAC addresses
+  macaddr_acl=0
+  # Use WPA authentication
+  auth_algs=1
+  # Require clients to know the network name
+  ignore_broadcast_ssid=0
+  # Use WPA2
+  wpa=2
+  # Use a pre-shared key
+  wpa_key_mgmt=WPA-PSK
+  wpa_pairwise=TKIP
+  rsn_pairwise=CCMP
+  
+  # Enable WMM
+  wmm_enabled=1
   # Enable 40MHz channels with 20ns guard interval
   #ht_capab=[HT40][SHORT-GI-20][DSSS_CCK-40]
   ```
