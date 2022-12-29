@@ -1,6 +1,6 @@
 # RaspberryPi Setup
 
-# 1. Flashing image on SD card
+## 1. Flashing image on SD card
 
 [Download and install Raspberry Pi Imager](https://www.raspberrypi.com/software)
 - Use 64 bit RPi OS for better performance.
@@ -13,7 +13,7 @@
 1. Add `dtoverlay=dwc2` at bottom of `config.txt`
 2. Add `modules-load=dwc2,g_ether` between `rootwait` and `quiet` in `cmdline.txt`
 
-References:
+### References:
 - https://howchoo.com/pi/raspberry-pi-gadget-mode
 
 ## 3. Setup WiFi later on
@@ -157,6 +157,61 @@ sudo systemctl start dhcpcd.service
 sudo systemctl start dnsmasq.service
 ```
 
-### Reference
+### References
 - https://forums.raspberrypi.com/viewtopic.php?t=211542
 - https://raspberrypi-guide.github.io/networking/create-wireless-access-point
+
+## 5. Setup Cloudflare(d) DoH
+
+### 5.1 Install cloudflared
+```
+# Create a new service account to run the cloudflared daemon
+sudo useradd -s /usr/sbin/nologin -r -M cloudflared
+
+# Add cloudflare gpg key
+sudo mkdir -p --mode=0755 /usr/share/keyrings
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+
+# Add this repo to your apt repositories
+echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared bullseye main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+
+# install cloudflared
+sudo apt-get update && sudo apt-get install cloudflared
+```
+
+### 5.2 Create config file
+- Add following to `/etc/default/cloudflared`
+  ```
+  # Commandline args for cloudflared
+  CLOUDFLARED_OPTS=--port 5053 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
+  ```
+- Change permissions so `cloudflared` service account can access it
+  ```
+  sudo chown cloudflared:cloudflared /etc/default/cloudflared
+  ```
+
+### 5.3 Setup service
+- Create service file `/lib/systemd/system/cloudflared.service`
+  ```
+  [Unit]
+  Description=cloudflared DNS over HTTPS proxy
+  After=syslog.target network-online.target
+
+  [Service]
+  Type=simple
+  User=cloudflared
+  EnvironmentFile=/etc/default/cloudflared
+  ExecStart=/usr/local/bin/cloudflared proxy-dns $CLOUDFLARED_OPTS
+  Restart=on-failure
+  RestartSec=10
+  KillMode=process
+  
+  [Install]
+  WantedBy=multi-user.target
+  ```
+- Enable and start the service
+  ```
+  sudo systemctl daemon-reload
+  sudo systemctl enable cloudflared
+  sudo systemctl start cloudflared
+  ```
