@@ -3,14 +3,15 @@
 ## Initial Fixes
 
 ### Locale problems
+1. Run `sudo dpkg-reconfigure locales` and enable `en_US.UTF-8 UTF-8`
 
-Edit `/etc/default/locale`
-```
-LANG=en_US.UTF-8
-LC_CTYPE=en_US.UTF-8
-LC_MESSAGES=en_US.UTF-8
-LC_ALL=en_US.UTF-8
-```
+2. Edit `/etc/default/locale`
+  ```
+  LANG=en_US.UTF-8
+  LC_CTYPE=en_US.UTF-8
+  LC_MESSAGES=en_US.UTF-8
+  LC_ALL=en_US.UTF-8
+  ```
 
 ---
 
