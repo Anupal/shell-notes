@@ -175,6 +175,8 @@ sudo systemctl start dnsmasq.service
 ### References
 - https://forums.raspberrypi.com/viewtopic.php?t=211542
 - https://raspberrypi-guide.github.io/networking/create-wireless-access-point
+- https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+- https://en.wikipedia.org/wiki/List_of_WLAN_channels#5_GHz_(802.11a/h/j/n/ac/ax)
 
 ## 5. Setup Cloudflare(d) DoH
 
