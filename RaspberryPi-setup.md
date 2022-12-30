@@ -1,5 +1,19 @@
 # RaspberryPi Setup
 
+## Initial Fixes
+
+### Locale problems
+
+Edit `/etc/default/locale`
+```
+LANG=en_US.UTF-8
+LC_CTYPE=en_US.UTF-8
+LC_MESSAGES=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+```
+
+---
+
 ## 1. Flashing image on SD card
 
 [Download and install Raspberry Pi Imager](https://www.raspberrypi.com/software)
