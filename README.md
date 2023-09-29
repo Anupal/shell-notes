@@ -9,7 +9,7 @@
 | [uniq](#uniq)  | [diff](#diff)  | [echo](#echo)  | [chown](#chown)  | [chmod](#chmod) | [umask](#umask) | [du](#du) | [df](#df) | [basename](#basename) | [dirname](#dirname) |
 | [id](#id) | [ps](#ps) | [top](#top) | [kill](#kill) | [killall](#killall) | [jobs](#jobs-fg-bg) | [fg](#jobs-fg-bg) | [bg](#jobs-fg-bg) | [type](#type) | [which](#which) |
 | [nohup](#nohup) | [xargs](#xargs) | [whoami](#whoami) | [who](#who) | [su](#su) | [sudo](#sudo) | [clear](#clear) | [history](#history) | [export](#export) | [crontab](#crontab)
-| [uname](#uname) | [env](#env) | [arp](#arp) | [ip](#ip) | [dig](#dig) | [nc](#nc) | - | - | - | - |
+| [uname](#uname) | [env](#env) | [arp](#arp) | [ip](#ip) | [dig](#dig) | [nc](#nc) | [tmux](https://github.com/Anupal/shell-notes/blob/master/tmux.md) | - | - | - |
 
 [References](#references)
 
