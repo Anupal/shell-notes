@@ -1,12 +1,19 @@
 # C# notes
 
 Following https://www.youtube.com/watch?v=YrtFtdTTfv0
+#### static
+- belong to the type (class) itself and shared by all instances
+- **variables:** shared by all instances. Modifications reflected in all.
+- **function:** can be called by the class itself. No need for an instance to be created.
+- **class:** can only contain static members, cannot be instantiated.
+- **constructor:** used to initialize static members of a class when the class is first accessed. It is called automatically when any static member is referenced for the first time or when the class is loaded.
 
 ```c#
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyFirstProject
@@ -310,7 +317,203 @@ namespace MyFirstProject
                 Console.WriteLine(str[i]);
             }
         }
+
+        static void PasswordConfirm()
+        {
+            bool firstPswdCheck = true;
+            string firstPswd = null;
+            while (firstPswdCheck)
+            {
+                Console.Write("Enter password: ");
+                firstPswd = Console.ReadLine();
+                if (!string.IsNullOrEmpty(firstPswd))
+                {
+                    firstPswdCheck = false;
+                }
+            }
+
+            bool secondPswdCheck = true;
+            string secondPswd = null;
+            while (secondPswdCheck)
+            {
+                Console.Write("Enter password to confirm: ");
+                secondPswd = Console.ReadLine();
+                if (!string.IsNullOrEmpty(secondPswd))
+                {
+                    secondPswdCheck = false;
+                }
+            }
+
+            // check if passwords match
+            if (firstPswd.Equals(secondPswd))
+            {
+                Console.WriteLine("Passwords match");
+            } else
+            {
+                Console.WriteLine("Passwords do not match");
+            }
+
+        }
+
+        static void PrintArray(int[] arr)
+        {
+            foreach (int num in arr)
+            {
+                Console.Write($"{num} ");
+            }
+            Console.WriteLine();
+        }
+
+        static void ArraysTutorial()
+        {
+            // declare an array
+            int[] testArray = new int[3];
+
+            // default value of all elements is 0
+            for (int i = 0; i < 3; i++)
+            {
+                Console.Write($"{testArray[i]} ");
+            }
+            Console.WriteLine();
+
+            // define an array
+            int[] testArray2 = {1, 2, 3, 4};
+
+            //foreach
+            foreach (int num in testArray2)
+            {
+                Console.Write($"{num} ");
+            }
+            Console.WriteLine();
+
+            // sorting -- sorts in place
+            int[] arr = {2, 9, 1, 5, 4, 9, 6};
+            Array.Sort(arr);
+            PrintArray(arr);
+
+            // reverse - in place
+            Array.Reverse(arr);
+            PrintArray(arr);
+
+            // set values of subarray to default value (0 in case of int)
+            // Array.Clear(arr, 0, arr.Length);
+            // PrintArray(arr);
+            // note: can also do this manually using a loop and 'default' keyword.
+
+            // search for value and return its index (first occurence)
+            // return -1 if not found can also specify start & end index
+            Console.WriteLine("pos {0}", Array.IndexOf(arr, 9));
+        }
         
+        static void TriangleAngleSum()
+        {
+            int[] angles = new int[3];
+            for (int i = 0; i < 3; i++)
+            {
+                Console.Write($"Enter angle {i + 1}: ");
+                int.TryParse(Console.ReadLine(), out angles[i]);
+            }
+            // check sum
+            if (angles.Sum() == 180)
+            {
+                Console.WriteLine("Triangle");
+            } else
+            {
+                Console.WriteLine("Not a triangle");
+            }
+        }
+
+        static void PrintList(List<int> list)
+        {
+            foreach (int num in list)
+            {
+                Console.Write($"{num} ");
+            }
+            Console.WriteLine();
+        }
+
+        static void ListsTutorial()
+        {
+            // declare a list
+            List<int> testList = new List<int>(3);
+            testList.Add(1);
+            testList.Add(2);
+            testList.Add(3);
+            PrintList(testList);
+
+            // define a list
+            List<int> preFilledList = new List<int> { 1, 2, 3, 4, 5 };
+            PrintList(preFilledList);
+
+            // remove element at index
+            preFilledList.RemoveAt(4);
+            PrintList(preFilledList);
+
+            // remove element
+            preFilledList.Remove(1);
+            PrintList(preFilledList);
+        }
+
+        static void PrintDictionary(Dictionary<int, string> dict)
+        {
+            // this also works
+            //foreach (int key in dict.Keys)
+            //{
+            //    Console.WriteLine($"{key} : {dict[key]}");
+            //}
+
+            foreach (KeyValuePair<int, string> pair in dict)
+            {
+                Console.WriteLine($"{pair.Key} : {pair.Value}");
+            }
+        }
+        static void DictionaryTutorial()
+        {
+            // define and use
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            dict.Add(0, "hello");
+            dict.Add(1, "sup");
+            dict.Add(2, "yolo");
+            PrintDictionary(dict);
+
+            // declare and use
+            Dictionary<int, string> dict2 = new Dictionary<int, string>()
+            {
+                {23, "anupal"},
+                {12, "anupal"}
+            };
+            PrintDictionary(dict2);
+
+            // check if key exists
+            if (dict2.ContainsKey(23))
+            {
+                Console.WriteLine(dict2[23]);
+            }
+        }
+
+        static void EvenOddLists(int max)
+        {
+            List<int> evenList = new List<int>(), oddList = new List<int>();
+
+            for (int i = 1; i <= max; i++)
+            {
+                if (i % 2 == 0) { evenList.Add(i); }
+                else { oddList.Add(i); }
+            }
+            PrintList(oddList);
+            PrintList(evenList);
+        }
+
+        static void ListOfMultiples(int num, int length)
+        {
+            List<int> multiples = new List<int>();
+            for (int i = 1; i <= length; i++)
+            {
+                multiples.Add(i * num);
+            }
+            PrintList(multiples);
+        }
+
         static void Main(string[] args)
         {
             // Basics();
@@ -322,7 +525,14 @@ namespace MyFirstProject
             // FizzBuzz();
             // Stuff3();
             // Stuff4();
-            StringLineByLinePrint("abcdefghijklmnopqrstuvwxyz");
+            // StringLineByLinePrint("abcdefghijklmnopqrstuvwxyz");
+            // PasswordConfirm();
+            // ArraysTutorial();
+            // TriangleAngleSum();
+            // ListsTutorial();
+            // DictionaryTutorial();
+            // EvenOddLists(20);
+            ListOfMultiples(9, 10);
         }
     }
 }
