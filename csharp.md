@@ -12,6 +12,7 @@ Following https://www.youtube.com/watch?v=YrtFtdTTfv0
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -348,7 +349,8 @@ namespace MyFirstProject
             if (firstPswd.Equals(secondPswd))
             {
                 Console.WriteLine("Passwords match");
-            } else
+            }
+            else
             {
                 Console.WriteLine("Passwords do not match");
             }
@@ -377,7 +379,7 @@ namespace MyFirstProject
             Console.WriteLine();
 
             // define an array
-            int[] testArray2 = {1, 2, 3, 4};
+            int[] testArray2 = { 1, 2, 3, 4 };
 
             //foreach
             foreach (int num in testArray2)
@@ -387,7 +389,7 @@ namespace MyFirstProject
             Console.WriteLine();
 
             // sorting -- sorts in place
-            int[] arr = {2, 9, 1, 5, 4, 9, 6};
+            int[] arr = { 2, 9, 1, 5, 4, 9, 6 };
             Array.Sort(arr);
             PrintArray(arr);
 
@@ -404,7 +406,7 @@ namespace MyFirstProject
             // return -1 if not found can also specify start & end index
             Console.WriteLine("pos {0}", Array.IndexOf(arr, 9));
         }
-        
+
         static void TriangleAngleSum()
         {
             int[] angles = new int[3];
@@ -417,7 +419,8 @@ namespace MyFirstProject
             if (angles.Sum() == 180)
             {
                 Console.WriteLine("Triangle");
-            } else
+            }
+            else
             {
                 Console.WriteLine("Not a triangle");
             }
@@ -514,6 +517,89 @@ namespace MyFirstProject
             PrintList(multiples);
         }
 
+        static int ExampleAddition(int a, int b = 50)
+        {
+            // demonstrates optional parameters
+            return a + b;
+        }
+
+        // Optional keyword - sets value of parameter to default value of type (in case not passed)
+        static void OpKeyEx([Optional] int x)
+        {
+            Console.WriteLine(x);
+        }
+
+        // Named parameters - cannot be followed by unnamed arguments (like Python)
+        static void NamedParams(string name, int age, string address)
+        {
+            Console.WriteLine($"{name} {age} {address}");
+        }
+
+        // Out params - way to return more than one value
+        // when using out, the out value needs to be assigned a new value in the function
+        static int OutParams(out int num)
+        {
+            num = 5;
+            return 0;
+        }
+
+        // Passing by reference
+        // unlike out, you don't need to assign new value
+        static int RefParams(ref int num)
+        {
+            return 0;
+        }
+
+        static void FunctionsExamples() {
+            Console.WriteLine(ExampleAddition(1));
+            OpKeyEx();
+            NamedParams(age: 10, name: "anupal", address: "abcd efghijk");
+
+            int num = 10;
+            Console.WriteLine($"Before: {num}");
+            int ret = OutParams(out num);
+            Console.WriteLine($"After: {num}, returned value: {ret}");
+
+            ret = RefParams(ref num);
+        }
+
+        static void ExceptionHandling()
+        {
+            Console.Write("Enter a number: ");
+            string input = Console.ReadLine();
+
+            try
+            {
+                int num = Convert.ToInt32(input);
+                Console.WriteLine(num);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Not an integer.");
+            }
+            catch (OverflowException) 
+            {
+                Console.WriteLine("Number too large to fit in 32bits.");
+            }
+            catch (Exception e) // using Exception will catch all exceptions
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+        }
+
+        static bool CustomTryParse(string input, out int result)
+        {
+            try
+            {
+                result = Convert.ToInt32(input);
+                return true;
+            } catch (Exception)
+            {
+                result = -1;
+                return false;
+            }
+        }
+
         static void Main(string[] args)
         {
             // Basics();
@@ -532,7 +618,12 @@ namespace MyFirstProject
             // ListsTutorial();
             // DictionaryTutorial();
             // EvenOddLists(20);
-            ListOfMultiples(9, 10);
+            // ListOfMultiples(9, 10);
+            // FunctionsExamples();
+            // ExceptionHandling();
+            int num = 0;
+            bool ret_val = CustomTryParse("45a", out num);
+            Console.WriteLine($"{ret_val} : {num}");
         }
     }
 }
