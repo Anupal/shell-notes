@@ -7,6 +7,18 @@
     - good for commandline, but avoid using them in scripts
     - can create your own aliases
     - use `Get-Alias` to get a list of current aliases
+- variable names follow camelCase
+- strings can be double or single quotes
+- using `=` wer can save the output in a variable.
+- usual artithmatic operations work: `+ - * / %`
+- boolean values are `$true` and `$false`
+    - it is a prebuilt readonly variable in Powershell
+- conditionals are computed using special flags like `-eq`
+- using undefined variables doesn't throw exceptions
+    - `Set-StrictMode -Version latest` will undo this
+    - you can turn it off later using `Set-StrictMode -Off`
+- null or undefined values are `$null`
+- typecasting or explicit types can be done using `[int]$var=1.1` where the value 1 will be stored
 
 #### print powershell version
 ```powershell
