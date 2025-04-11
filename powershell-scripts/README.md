@@ -19,6 +19,9 @@
     - you can turn it off later using `Set-StrictMode -Off`
 - null or undefined values are `$null`
 - typecasting or explicit types can be done using `[int]$var=1.1` where the value 1 will be stored
+- ArrayLists have better performance than vanilla Arrays
+    - Arrays are static and new ones are created when you add a new element. This is what impacts the performance.
+- 
 
 #### print powershell version
 ```powershell
@@ -65,6 +68,19 @@ Get-Help Get-Service -Full
     - Undefined
     - Unrestricted -> will let you run anything (dangerous)
 
-# Special flags
+## Special flags
 - `-WhatIf` flag can be used to get an explanation about what the command will do
 - `-Confirm` flag, similar to `-y` in Bash commands. It will not prompt you for confirmation.
+
+## Measure execution time
+```powershell
+$array = @()
+Measure-Command -Expression {
+    @(0..50000).ForEach({$array += $_})
+}
+
+$arrayList = New-Object -Type System.Collections.ArrayList
+Measure-Command -Expression {
+    @(0..50000).ForEach({$arrayList.Add($_)})
+}
+```
