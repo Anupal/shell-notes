@@ -8,6 +8,32 @@ Following https://www.youtube.com/watch?v=YrtFtdTTfv0
 - **class:** can only contain static members, cannot be instantiated.
 - **constructor:** used to initialize static members of a class when the class is first accessed. It is called automatically when any static member is referenced for the first time or when the class is loaded.
 
+### top-level statements
+- starting from .NET 6.04
+- earlier needed to add your code within `Solution namespace > Program class`
+```c#
+using System;
+
+namespace ExampleSolution
+{
+    internal class Program
+    {
+        static void Main(string[] args) 
+        {
+            Console.WriteLine("Hello, World!");
+        }
+    }
+}
+```
+- now all we need is
+```c#
+Console.WriteLine("Hello, World!");
+```
+- introduced to drop all boilerplate code required earlier
+- We simply type all statements we need to execute on top of the file followed by custom types (classes and functions) at the bottom or in separate files.
+- The boilerplate is only hidden, the code is nested with the namespace and the Program class at compile time.
+
+## Tutorial code
 ```c#
 using System;
 using System.Collections.Generic;
